@@ -1,29 +1,23 @@
-import {
-  useGetTodosQuery,
-  useAddTodoMutation,
-  useUpdateTodoMutation,
-  useDeleteTodoMutation,
-} from "../api/apiSlice";
 import { faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import * as React from "react";
+import {
+  useAddTodoMutation,
+  useDeleteTodoMutation,
+  useGetTodosQuery,
+  useUpdateTodoMutation,
+} from "../api/apiSlice";
 
 const TodoList = () => {
-  const [newTodo, setNewTodo] = useState("");
+  const [newTodo, setNewTodo] = React.useState("");
 
-  const {
-    data: todos,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetTodosQuery();
+  const { data: todos, isLoading, isSuccess, isError } = useGetTodosQuery();
   const [addTodo] = useAddTodoMutation();
   const [updateTodo] = useUpdateTodoMutation();
   const [deleteTodo] = useDeleteTodoMutation();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
     addTodo({ title: newTodo, completed: false });
     setNewTodo("");
   };
@@ -74,7 +68,7 @@ const TodoList = () => {
       );
     });
   } else if (isError) {
-    content = <p>{error}</p>;
+    content = <div>Something went wrong, try it later!</div>;
   }
 
   return (

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { ITodo } from "../../models/models";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -7,11 +8,11 @@ export const apiSlice = createApi({
   }),
   tagTypes: ["Todos"],
   endpoints: (builder) => ({
-    getTodos: builder.query({
+    getTodos: builder.query<ITodo[], void>({
       query: () => "/todos",
       providesTags: ["Todos"],
     }),
-    addTodo: builder.mutation({
+    addTodo: builder.mutation<ITodo[], object>({
       query: (todo) => ({
         url: "/todos",
         method: "POST",
@@ -19,7 +20,7 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Todos"],
     }),
-    updateTodo: builder.mutation({
+    updateTodo: builder.mutation<ITodo[], ITodo>({
       query: (todo) => ({
         url: `/todos/${todo._id}`,
         method: "PATCH",
@@ -27,7 +28,7 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Todos"],
     }),
-    deleteTodo: builder.mutation({
+    deleteTodo: builder.mutation<ITodo, any>({
       query: ({ _id }) => ({
         url: `/todos/${_id}`,
         method: "DELETE",
