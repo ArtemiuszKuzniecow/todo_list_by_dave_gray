@@ -1,0 +1,4 @@
+{
+  "port": 8080,
+  "mongoUri": "mongodb+srv://artemiuszkuzniecow:Test1234@cluster0.twdwpvd.mongodb.net/todo_list_by_dave_gray?retryWrites=true&w=majority"
+}

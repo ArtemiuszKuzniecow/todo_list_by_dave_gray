@@ -24,7 +24,7 @@ const TodoList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTodo({ userId: Date.now(), title: newTodo, completed: false });
+    addTodo({ title: newTodo, completed: false });
     setNewTodo("");
   };
 
@@ -52,19 +52,22 @@ const TodoList = () => {
   } else if (isSuccess) {
     content = todos.map((todo) => {
       return (
-        <article key={todo.id}>
+        <article key={todo._id}>
           <div className="todo">
             <input
               type="checkbox"
               checked={todo.completed}
-              id={todo.id}
+              id={todo._id}
               onChange={() =>
                 updateTodo({ ...todo, completed: !todo.completed })
               }
             />
-            <label htmlFor={todo.id}>{todo.title}</label>
+            <label htmlFor={todo._id}>{todo.title}</label>
           </div>
-          <button className="trash" onClick={() => deleteTodo({ id: todo.id })}>
+          <button
+            className="trash"
+            onClick={() => deleteTodo({ _id: todo._id })}
+          >
             <FontAwesomeIcon icon={faTrash} />
           </button>
         </article>
