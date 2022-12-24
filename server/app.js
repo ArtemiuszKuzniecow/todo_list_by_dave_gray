@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const config = require("config");
 const chalk = require("chalk");
 const routes = require("./routes");
@@ -16,9 +17,11 @@ const PORT = config.get("port") ?? 8080;
 
 async function start() {
   try {
+    await mongoose.connect(config.get("mongoUri"));
+    console.log(chalk.cyanBright("MongoDB connected"));
     app.listen(8080, () => {
       console.log(
-        chalk.greenBright(`Server has been started on port ${PORT}...`)
+        chalk.cyanBright(`Server has been started on port ${PORT}...`)
       );
     });
   } catch (error) {

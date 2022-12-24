@@ -1,22 +1,22 @@
 const express = require("express");
-const todos = require("../data/db.json");
+const Todo = require("../models/Todo");
 const router = express.Router({ mergeParams: true });
 
 router
   .route("/")
   .get(async (req, res) => {
     try {
-      if (todos) {
-        res.status(200).send(todos.todos);
-      }
+      const list = await Todo.find();
+      res.status(200).send(list);
     } catch (error) {
       res.status(500).json({ message: "Something went wrong. Try it later." });
     }
   })
   .post(async (req, res) => {
     try {
-      const newTodo = req.body;
-      todos.todos.push(newTodo);
+      const newTodo = await Todo.create({
+        ...req.body,
+      });
       res.status(201).send(newTodo);
     } catch (error) {
       res.status(500).json({ message: "Something went wrong. Try it later." });
@@ -27,18 +27,20 @@ router
   .route("/:id")
   .patch(async (req, res) => {
     try {
-      const updatedTodo = req.body;
-      todos.todos = [...todos.todos, updatedTodo];
-      res.send(200);
+      const { id } = req.params;
+      const updatedTodo = await Todo.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res.send(updatedTodo);
     } catch (error) {
       res.status(500).json({ message: "Something went wrong. Try it later." });
     }
   })
   .delete(async (req, res) => {
     try {
-      const removesTodo = req.body;
-      console.log(removesTodo);
-      todos.todos = todos.todos.filter((t) => t.id !== removesTodo);
+      const { id } = req.params;
+      const removedTodo = Todo.findById(id);
+      await removedTodo.deleteOne();
       return res.send(null);
     } catch (error) {
       res.status(500).json({ message: "Something went wrong. Try it later." });
