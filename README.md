@@ -1,1 +1,1 @@
-React, Redux-Toolkit, RTK-Query
+React, Redux-Toolkit, RTK-Query, NodeJS, Express, MongoDB
