@@ -4,7 +4,7 @@ import { ITodo } from "../../models/models";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api",
+    baseUrl: "https://vn13q0.deta.dev/api",
   }),
   tagTypes: ["Todos"],
   endpoints: (builder) => ({
